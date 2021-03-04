@@ -21,22 +21,22 @@
         {
             "title": "电影",
             "id": "dianying",
-            "url": "https://www.ynsqx.com/dianying-{0}/"
+            "url": "https://www.ynsqx.com/list/dianying/page/{0}/"
         },
         {
             "title": "电视剧",
             "id": "dianshiju",
-            "url": "https://www.ynsqx.com/dianshiju-{0}/"
+            "url": "https://www.ynsqx.com/list/dianshiju/page/{0}/"
         },
         {
             "title": "综艺",
             "id": "zongyi",
-            "url": "https://www.ynsqx.com/zongyi-{0}/"
+            "url": "https://www.ynsqx.com/list/zongyi/page/{0}/"
         },
         {
             "title": "动画",
             "id": "dongman",
-            "url": "https://www.ynsqx.com/dongman-{0}/"
+            "url": "https://www.ynsqx.com/list/dongman/page/{0}/"
         }
     ]
 }

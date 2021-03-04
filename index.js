@@ -12,30 +12,27 @@ class HomeCollection extends Collection {
             function processNode(node) {
                 let item = glib.DataItem.new();
                 item.type = glib.DataItem.Type.Header;
-                item.title = node.querySelector('h3.title').text.replace(',', '').trim();
+                item.title = node.querySelector('h2.title').text.replace(',', '').trim();
                 items.push(item);
 
-                let list = node.querySelectorAll('ul.myui-vodlist > li');
+                let list = node.querySelectorAll('ul.vodlist > li');
                 for (let vod of list) {
                     let item = glib.DataItem.new();
-                    item.title = vod.querySelector('.myui-vodlist__detail h4.title').text;
-                    item.subtitle = vod.querySelector('.myui-vodlist__detail .text').text;
-                    let imgLink = vod.querySelector('.myui-vodlist__thumb');
+                    item.title = vod.querySelector('.vodlist_title a').text;
+                    item.subtitle = vod.querySelector('.vodlist_sub').text;
+                    let imgLink = vod.querySelector('.vodlist_thumb');
                     item.link = pageUrl.href(imgLink.attr('href'));
                     item.picture = pageUrl.href(imgLink.attr('data-original'));
                     items.push(item);
                 }
             }
 
-            let panel = doc.querySelector('.myui-panel-box');
+            let panel = doc.querySelector('.pannel');
             processNode(panel);
 
-            let list = doc.querySelectorAll('.myui-panel-box');
+            let list = doc.querySelectorAll('.vod_row.tit_up .pannel');
             for (let node of list) {
-                let vlist = node.querySelector('ul.myui-vodlist');
-                if (vlist) {
-                    processNode(node);
-                }
+                processNode(node);
             }
             this.setData(items);
             cb.apply(null);
@@ -61,14 +58,14 @@ class CategoryCollection extends Collection {
         let pageUrl = new PageURL(url);
 
         let doc = await super.fetch(url);
-        let nodes = doc.querySelectorAll('ul.myui-vodlist > li');
+        let nodes = doc.querySelectorAll('ul.vodlist > li');
 
         let items = [];
         for (let vod of nodes) {
             let item = glib.DataItem.new();
-            item.title = vod.querySelector('.myui-vodlist__detail h4.title').text;
-            item.subtitle = vod.querySelector('.myui-vodlist__detail .text').text;
-            let imgLink = vod.querySelector('.myui-vodlist__thumb');
+            item.title = vod.querySelector('.vodlist_title a').text;
+            item.subtitle = vod.querySelector('.vodlist_sub').text;
+            let imgLink = vod.querySelector('.vodlist_thumb');
             item.link = pageUrl.href(imgLink.attr('href'));
             item.picture = pageUrl.href(imgLink.attr('data-original'));
             items.push(item);

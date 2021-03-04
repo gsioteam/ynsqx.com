@@ -1,6 +1,5 @@
 
 const {Collection} = require('./collection');
-const detail_url = "https://agefans.org/myapp/_get_ep_plays?ep={0}&anime_id={1}";
 
 class DetailsCollection extends Collection {
     
@@ -9,15 +8,20 @@ class DetailsCollection extends Collection {
         let doc = await super.fetch(url);
 
         let info_data = this.info_data;
-        info_data.summary = doc.querySelector('.content').text.trim();
+        let summay = doc.querySelector('.content').text.trim();
+        let arr = summay.split('\n').map(function(str) {return str.trim();});
+        arr.splice(arr.length - 1, 1);
 
-        let tabs = doc.querySelector('ul.nav-tabs');
+        info_data.summary = arr.join('\n');
+
+        let tabs = doc.querySelectorAll('.play_source .play_source_tab a');
+        let lists = doc.querySelectorAll('.play_source .play_list_box .playlist_full');
+        let len = tabs.length;
         let items = [];
-        let list = tabs.querySelectorAll('li > a');
-        for (let tab of list) {
+        for (let i = 0; i < len; ++i) {
+            let tab = tabs[i], list = lists[i];
             let subtitle = tab.text;
-            let id = tab.attr('href');
-            let nodes = doc.querySelectorAll(`${id} > ul > li > a`);
+            let nodes = list.querySelectorAll('ul.content_playlist > li > a');
             for (let link of nodes) {
                 let item = glib.DataItem.new();
                 item.title = link.text;
@@ -35,8 +39,10 @@ class DetailsCollection extends Collection {
             this.setData(results);
             cb.apply(null);
         }).catch(function(err) {
-            if (err instanceof Error) 
+            if (err instanceof Error) {
+                console.log("Err " + err.message + " stack " + err.stack);
                 err = glib.Error.new(305, err.message);
+            }
             cb.apply(err);
         });
         return true;

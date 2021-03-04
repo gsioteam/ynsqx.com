@@ -20,7 +20,7 @@ class DetailsCollection extends Collection {
         let items = [];
         for (let i = 0; i < len; ++i) {
             let tab = tabs[i], list = lists[i];
-            let subtitle = tab.text;
+            let subtitle = tab.text.substr(1).trim();
             let nodes = list.querySelectorAll('ul.content_playlist > li > a');
             for (let link of nodes) {
                 let item = glib.DataItem.new();

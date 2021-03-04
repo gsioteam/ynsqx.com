@@ -12,7 +12,7 @@ class HomeCollection extends Collection {
             function processNode(node) {
                 let item = glib.DataItem.new();
                 item.type = glib.DataItem.Type.Header;
-                item.title = node.querySelector('h2.title').text.replace(',', '').trim();
+                item.title = node.querySelector('h2.title').text.trim().substr(1);
                 items.push(item);
 
                 let list = node.querySelectorAll('ul.vodlist > li');
@@ -23,11 +23,11 @@ class HomeCollection extends Collection {
                     let imgLink = vod.querySelector('.vodlist_thumb');
                     item.link = pageUrl.href(imgLink.attr('href'));
                     item.picture = pageUrl.href(imgLink.attr('data-original'));
-                    items.push(item);
+                    items.push(item);   
                 }
             }
 
-            let panel = doc.querySelector('.pannel');
+            let panel = doc.querySelector('.container > .pannel');
             processNode(panel);
 
             let list = doc.querySelectorAll('.vod_row.tit_up .pannel');

@@ -11,18 +11,18 @@ class SearchCollection extends Collection {
     async fetch(url) {
         let pageUrl = new PageURL(url);
         let doc = await super.fetch(url);
-        let nodes = doc.querySelectorAll('ul.myui-vodlist__media > li');
+        let nodes = doc.querySelectorAll('ul.vodlist > li');
 
         let results = [];
         for (let node of nodes) {
             let item = glib.DataItem.new();
-            let link = node.querySelector('.title a.searchkey');
+            let link = node.querySelector('.vodlist_title > a');
             item.link = pageUrl.href(link.attr('href'));
-            item.title = link.text;
-            item.picture = pageUrl.href(node.querySelector('.thumb > .myui-vodlist__thumb').attr('data-original'));
-            let details = node.querySelectorAll('.detail > p');
-            if (details.length >= 2) {
-                item.subtitle = details[1].text;
+            item.title = link.attr('title');
+            item.picture = pageUrl.href(node.querySelector('.vodlist_thumb').attr('data-original'));
+            let details = node.querySelectorAll('.vodlist_sub');
+            if (details.length >= 1) {
+                item.subtitle = details[0].text;
             }
             results.push(item);
         }
